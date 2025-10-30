@@ -64,7 +64,8 @@ wp-config.php
 /.serena/
 /.github/
 /.pnpm-store/
-
+/.kilocode/
+/.roo/
 # Keep assets directory but ignore compiled outputs
 # Ignore sourcemaps
 /assets/**/*.map
