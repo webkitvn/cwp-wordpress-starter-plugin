@@ -2,10 +2,8 @@
 /node_modules/
 /vendor/
 /.pnpm-store/
-
+/openspec/
 # Build output
-/assets/*.js
-/assets/*.css
 /assets/*.js.map
 /assets/*.css.map
 /assets/.vite/

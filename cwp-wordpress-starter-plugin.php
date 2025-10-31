@@ -38,14 +38,23 @@ require_once CWP_PLUGIN_DIR . 'admin/php/class-plugin.php';
 /**
  * Initialize the plugin.
  *
- * @return void
+ * @return Plugin
  */
 function cwp_init_plugin() {
-	$plugin = new Plugin();
+	return Plugin::get_instance();
 }
 
 // Initialize plugin after WordPress has loaded.
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\cwp_init_plugin' );
+
+/**
+ * Global function to access plugin instance
+ *
+ * @return Plugin
+ */
+function cwp_plugin() {
+	return Plugin::get_instance();
+}
 
 /**
  * Plugin activation hook.
