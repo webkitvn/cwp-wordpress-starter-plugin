@@ -1,0 +1,153 @@
+name: Lint & Test
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  php-lint:
+    name: PHP Linting (PHPCS)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['7.4', '8.0', '8.1', '8.2']
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+          tools: composer
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run PHPCS
+        run: composer lint
+
+  javascript-lint:
+    name: JavaScript/TypeScript Linting
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['18.x', '20.x']
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-store-
+
+      - name: Install pnpm dependencies
+        run: pnpm install
+
+      - name: Run ESLint
+        run: pnpm lint:js
+
+      - name: Run Stylelint
+        run: pnpm lint:styles
+
+      - name: Check TypeScript
+        run: pnpm typecheck
+
+  format-check:
+    name: Code Formatting Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install pnpm dependencies
+        run: pnpm install
+
+      - name: Check Prettier formatting
+        run: pnpm exec prettier --check "src/**/*.{ts,tsx,js,jsx,css,scss}"
+
+  build-test:
+    name: Build Assets
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install pnpm dependencies
+        run: pnpm install
+
+      - name: Build assets
+        run: pnpm build
+
+      - name: Check if assets were generated
+        run: |
+          if [ ! -f "assets/admin.js" ] || [ ! -f "assets/public.js" ]; then
+            echo "Build failed: assets not generated"
+            exit 1
+          fi
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-assets
+          path: assets/
+          retention-days: 7

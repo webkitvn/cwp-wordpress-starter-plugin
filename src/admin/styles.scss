@@ -1,0 +1,75 @@
+/**
+ * Admin Styles
+ *
+ * Styles for WordPress admin interface
+ */
+
+// Variables
+$primary-color: #0073aa;
+$secondary-color: #005177;
+$success-color: #46b450;
+$error-color: #dc3232;
+$warning-color: #f0b849;
+
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+$border-radius: 4px;
+$box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+
+// Admin Container
+.cwp-admin-container {
+  max-width: 1200px;
+  margin: $spacing-lg auto;
+  padding: $spacing-md;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid #ddd;
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #23282d;
+    }
+  }
+
+  &__content {
+    background: #fff;
+    padding: $spacing-lg;
+    border: 1px solid #ccd0d4;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+  }
+}
+
+// Utility Classes
+.cwp-text-primary {
+  color: $primary-color;
+}
+
+.cwp-text-success {
+  color: $success-color;
+}
+
+.cwp-text-error {
+  color: $error-color;
+}
+
+.cwp-mb-sm {
+  margin-bottom: $spacing-sm;
+}
+
+.cwp-mb-md {
+  margin-bottom: $spacing-md;
+}
+
+.cwp-mb-lg {
+  margin-bottom: $spacing-lg;
+}

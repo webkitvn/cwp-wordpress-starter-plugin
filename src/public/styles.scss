@@ -1,0 +1,96 @@
+/**
+ * Public Styles
+ *
+ * Styles for public-facing components
+ */
+
+// Variables
+$primary-color: #0073aa;
+$secondary-color: #005177;
+$text-color: #333;
+$background-color: #fff;
+$border-color: #ddd;
+
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+$border-radius: 4px;
+$transition-speed: 0.3s;
+
+// Public Container
+.cwp-public-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-md;
+
+  &__header {
+    margin-bottom: $spacing-lg;
+
+    h2 {
+      margin: 0 0 $spacing-sm 0;
+      font-size: 28px;
+      color: $text-color;
+    }
+  }
+
+  &__content {
+    background: $background-color;
+    padding: $spacing-lg;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+  }
+}
+
+// Component Styles
+.cwp-component {
+  margin-bottom: $spacing-md;
+  padding: $spacing-md;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  transition: all $transition-speed ease;
+
+  &:hover {
+    border-color: $primary-color;
+    box-shadow: 0 2px 8px rgba(0, 115, 170, 0.15);
+  }
+
+  &__title {
+    margin: 0 0 $spacing-sm 0;
+    font-size: 18px;
+    color: $text-color;
+  }
+
+  &__content {
+    color: $text-color;
+  }
+}
+
+// Button Styles
+.cwp-button {
+  display: inline-block;
+  padding: $spacing-sm $spacing-md;
+  background-color: $primary-color;
+  color: $background-color;
+  border: none;
+  border-radius: $border-radius;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color $transition-speed ease;
+
+  &:hover {
+    background-color: $secondary-color;
+  }
+
+  &--secondary {
+    background-color: transparent;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+
+    &:hover {
+      background-color: $primary-color;
+      color: $background-color;
+    }
+  }
+}

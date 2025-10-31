@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<phpunit
+    bootstrap="tests/bootstrap.php"
+    backupGlobals="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    verbose="true"
+>
+    <testsuites>
+        <testsuite name="Plugin Test Suite">
+            <directory suffix="Test.php">./tests/unit</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./admin</directory>
+            <directory suffix=".php">./public</directory>
+            <exclude>
+                <directory>./vendor</directory>
+                <directory>./node_modules</directory>
+                <directory>./tests</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <php>
+        <const name="WP_TESTS_PHPUNIT_POLYFILLS_PATH" value="./vendor/yoast/phpunit-polyfills" />
+    </php>
+</phpunit>
