@@ -4,20 +4,26 @@
 import { defineConfig } from 'vite';
 import path from 'path';
 import autoprefixer from 'autoprefixer';
-import removeConsole from 'vite-plugin-remove-console';
 
 export default defineConfig(({ mode }) => {
 	const isProduction = mode === 'production';
 
 	return {
-		plugins: isProduction
-			? [
-					removeConsole({
-						// Only remove console statements in production builds
-						excludes: ['error', 'warn'], // Keep error and warn logs
-					}),
-				]
-			: [],
+		plugins: [
+			...(isProduction
+				? [
+						{
+							name: 'remove-console',
+							transform(code) {
+								return code.replace(
+									/console\.log\([^)]*\);?/g,
+									''
+								);
+							},
+						},
+					]
+				: []),
+		],
 		build: {
 			// Output directory for built assets
 			outDir: 'assets',
@@ -34,6 +40,9 @@ export default defineConfig(({ mode }) => {
 			},
 			// Generate sourcemaps for debugging
 			sourcemap: true,
+			target: 'es2015',
+			// Use esbuild minifier for faster builds
+			minify: isProduction ? 'esbuild' : false,
 			// Rollup options
 			rollupOptions: {
 				output: {
