@@ -5,8 +5,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=development vite build --watch",
-    "build": "NODE_ENV=production vite build",
+    "dev": "vite build --watch --mode development",
+    "build": "vite build --mode production",
     "build:watch": "vite build --watch",
     "lint": "pnpm lint:js && pnpm lint:styles && pnpm lint:php",
     "lint:js": "eslint src",
