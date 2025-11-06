@@ -4,7 +4,13 @@
  * This is the main entry point for admin-facing JavaScript.
  */
 
+/**
+ * Internal dependencies
+ */
 import './styles.scss';
+/**
+ * External dependencies
+ */
 import { PLUGIN_NAME, PLUGIN_VERSION } from '@shared/constants';
 import { debugLog } from '@shared/utils';
 
@@ -12,12 +18,12 @@ import { debugLog } from '@shared/utils';
  * Initialize admin functionality
  */
 function initAdmin(): void {
-  debugLog(`${PLUGIN_NAME} v${PLUGIN_VERSION} - Admin initialized`);
+	debugLog(`${PLUGIN_NAME} v${PLUGIN_VERSION} - Admin initialized`);
 
-  // Add your admin initialization code here
-  document.addEventListener('DOMContentLoaded', () => {
-    debugLog('Admin DOM loaded');
-  });
+	// Add your admin initialization code here
+	document.addEventListener('DOMContentLoaded', () => {
+		debugLog('Admin DOM loaded');
+	});
 }
 
 // Initialize when script loads
