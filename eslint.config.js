@@ -54,7 +54,6 @@ const legacyConfig = compat.config({
         'vendor/**',
         'node_modules/**',
         '*.config.js',
-        '*.config.ts',
     ],
 });
 
