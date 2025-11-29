@@ -52,9 +52,7 @@ export default defineConfig(({ mode }) => {
 				},
 			},
 			postcss: {
-				plugins: [
-					autoprefixer,
-				],
+				plugins: [autoprefixer],
 			},
 		},
 		resolve: {

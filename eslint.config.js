@@ -2,6 +2,7 @@ import { fixupConfigRules } from '@eslint/compat';
 import { FlatCompat } from '@eslint/eslintrc';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import globals from 'globals';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -57,4 +58,19 @@ const legacyConfig = compat.config({
     ],
 });
 
-export default fixupConfigRules(legacyConfig);
+const toolingOverrides = {
+    files: ['*.config.{js,ts}', 'vite.config.ts', 'scripts/**/*.{js,ts}'],
+    languageOptions: {
+        globals: {
+            ...globals.node,
+        },
+    },
+    rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+    },
+};
+
+export default fixupConfigRules([
+    ...legacyConfig,
+    toolingOverrides,
+]);
