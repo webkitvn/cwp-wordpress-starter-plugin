@@ -72,6 +72,9 @@ importers:
       eslint-plugin-react-hooks:
         specifier: ^7.0.1
         version: 7.0.1(eslint@9.39.0)
+      globals:
+        specifier: ^13.24.0
+        version: 13.24.0
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.19.24)

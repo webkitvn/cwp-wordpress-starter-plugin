@@ -73,10 +73,10 @@ class Plugin {
 		// Register services
 		$this->services['logger']  = $this->logger;
 		$this->services['notices'] = $this->notices;
-		
+
 		// Initialize AJAX handler
 		$this->services['ajax'] = new AJAX_Handler();
-		
+
 		// Initialize REST API controllers
 		add_action( 'rest_api_init', array( $this, 'init_rest_controllers' ) );
 
@@ -89,7 +89,7 @@ class Plugin {
 	 */
 	public function init_rest_controllers() {
 		// Example controller - remove or modify as needed
-		$example_controller = new Example_REST_Controller();
+		$example_controller             = new Example_REST_Controller();
 		$this->services['rest_example'] = $example_controller;
 	}
 
@@ -100,14 +100,14 @@ class Plugin {
 		// Assets
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_assets' ) );
-		
+
 		// Core
 		add_action( 'init', array( $this, 'load_textdomain' ) );
-		
+
 		// Activation/Deactivation hooks
 		register_activation_hook( CWP_PLUGIN_FILE, array( $this, 'activate' ) );
 		register_deactivation_hook( CWP_PLUGIN_FILE, array( $this, 'deactivate' ) );
-		
+
 		// Admin
 		if ( is_admin() ) {
 			add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
@@ -116,7 +116,7 @@ class Plugin {
 
 		// Cron
 		add_action( 'cwp_daily_maintenance', array( $this, 'daily_maintenance' ) );
-		
+
 		// AJAX handlers
 		$this->init_ajax_handlers();
 	}
@@ -134,7 +134,7 @@ class Plugin {
 	 */
 	public function activate() {
 		$this->logger->info( 'Plugin activated' );
-		
+
 		// Schedule cron events
 		if ( ! wp_next_scheduled( 'cwp_daily_maintenance' ) ) {
 			wp_schedule_event( time(), 'daily', 'cwp_daily_maintenance' );
@@ -149,7 +149,7 @@ class Plugin {
 
 		// Create necessary database tables or options
 		$this->create_tables();
-		
+
 		// Set default options
 		$this->set_default_options();
 
@@ -161,10 +161,10 @@ class Plugin {
 	 */
 	public function deactivate() {
 		$this->logger->info( 'Plugin deactivated' );
-		
+
 		// Clear scheduled events
 		wp_clear_scheduled_hook( 'cwp_daily_maintenance' );
-		
+
 		flush_rewrite_rules();
 	}
 
@@ -180,9 +180,9 @@ class Plugin {
 	 */
 	private function set_default_options() {
 		$defaults = array(
-			'cwp_version'    => CWP_PLUGIN_VERSION,
-			'cwp_settings'   => array(),
-			'cwp_first_run'  => current_time( 'mysql' ),
+			'cwp_version'   => CWP_PLUGIN_VERSION,
+			'cwp_settings'  => array(),
+			'cwp_first_run' => current_time( 'mysql' ),
 		);
 
 		foreach ( $defaults as $option => $value ) {
@@ -197,10 +197,10 @@ class Plugin {
 	 */
 	public function daily_maintenance() {
 		$this->logger->debug( 'Running daily maintenance' );
-		
+
 		// Clean up old logs
 		$this->logger->cleanup_old_logs();
-		
+
 		// Add other maintenance tasks here
 		do_action( 'cwp_daily_maintenance_tasks' );
 	}
@@ -217,9 +217,13 @@ class Plugin {
 	 * Register settings
 	 */
 	private function register_settings() {
-		register_setting( 'cwp_settings_group', 'cwp_settings', array(
-			'sanitize_callback' => array( $this, 'sanitize_settings' ),
-		) );
+		register_setting(
+			'cwp_settings_group',
+			'cwp_settings',
+			array(
+				'sanitize_callback' => array( $this, 'sanitize_settings' ),
+			)
+		);
 	}
 
 	/**
@@ -230,9 +234,9 @@ class Plugin {
 	 */
 	public function sanitize_settings( $input ) {
 		$sanitized = array();
-		
+
 		// Add your settings sanitization logic here
-		
+
 		return $sanitized;
 	}
 
@@ -302,7 +306,7 @@ class Plugin {
 	 */
 	public function enqueue_admin_assets() {
 		$admin_js_path  = CWP_PLUGIN_URL . 'assets/admin.js';
-		$admin_css_path = CWP_PLUGIN_URL . 'assets/style.css';
+		$admin_css_path = CWP_PLUGIN_URL . 'assets/admin.css';
 
 		wp_enqueue_script(
 			'cwp-admin-js',
@@ -311,6 +315,7 @@ class Plugin {
 			CWP_PLUGIN_VERSION,
 			true
 		);
+		wp_script_add_data( 'cwp-admin-js', 'type', 'module' );
 
 		wp_enqueue_style(
 			'cwp-admin-css',
@@ -332,7 +337,7 @@ class Plugin {
 		}
 
 		$public_js_path  = CWP_PLUGIN_URL . 'assets/public.js';
-		$public_css_path = CWP_PLUGIN_URL . 'assets/style.css';
+		$public_css_path = CWP_PLUGIN_URL . 'assets/public.css';
 
 		wp_enqueue_script(
 			'cwp-public-js',
@@ -341,6 +346,7 @@ class Plugin {
 			CWP_PLUGIN_VERSION,
 			true
 		);
+		wp_script_add_data( 'cwp-public-js', 'type', 'module' );
 
 		wp_enqueue_style(
 			'cwp-public-css',

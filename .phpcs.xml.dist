@@ -1,35 +1,38 @@
 <?xml version="1.0"?>
 <ruleset name="Starter Plugin Coding Standards">
-	<description>WordPress Coding Standards for Starter Plugin</description>
+    <description>WordPress Coding Standards for Starter Plugin</description>
 
-	<!-- Check all PHP files in the theme directory -->
-	<file>.</file>
+    <!-- Check all PHP files in the theme directory -->
+    <file>.</file>
 
-	<!-- Exclude paths -->
-	<exclude-pattern>*/vendor/*</exclude-pattern>
-	<exclude-pattern>*/node_modules/*</exclude-pattern>
-	<exclude-pattern>*/assets/*</exclude-pattern>
+    <!-- Exclude paths -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/assets/*</exclude-pattern>
 
-	<!-- Use WordPress Coding Standards -->
-	<rule ref="WordPress">
-		<!-- Allow short array syntax -->
-		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
-	</rule>
+    <!-- Use WordPress Coding Standards -->
+    <rule ref="WordPress">
+        <!-- Allow short array syntax -->
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+        <!-- Inline comments in legacy files don't always have punctuation -->
+        <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar"/>
+    </rule>
 
-	<!-- Enforce WordPress text domain -->
-	<rule ref="WordPress.WP.I18n">
-		<properties>
-			<property name="text_domain" type="array">
-				<element value="cwp"/>
-			</property>
-		</properties>
-	</rule>
+    <!-- Enforce WordPress text domain -->
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="cwp"/>
+                <element value="cwp-starter-plugin"/>
+            </property>
+        </properties>
+    </rule>
 
-	<!-- Check for PHP 8.3 compatibility -->
-	<config name="testVersion" value="8.3-"/>
+    <!-- Check for PHP 8.3 compatibility -->
+    <config name="testVersion" value="8.3-"/>
 
-	<!-- Show progress and colors -->
-	<arg name="colors"/>
-	<arg value="sp"/>
-	<arg name="extensions" value="php"/>
+    <!-- Show progress and colors -->
+    <arg name="colors"/>
+    <arg value="sp"/>
+    <arg name="extensions" value="php"/>
 </ruleset>
