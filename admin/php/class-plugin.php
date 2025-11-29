@@ -306,7 +306,7 @@ class Plugin {
 	 */
 	public function enqueue_admin_assets() {
 		$admin_js_path  = CWP_PLUGIN_URL . 'assets/admin.js';
-		$admin_css_path = CWP_PLUGIN_URL . 'assets/style.css';
+		$admin_css_path = CWP_PLUGIN_URL . 'assets/admin.css';
 
 		wp_enqueue_script(
 			'cwp-admin-js',
@@ -337,7 +337,7 @@ class Plugin {
 		}
 
 		$public_js_path  = CWP_PLUGIN_URL . 'assets/public.js';
-		$public_css_path = CWP_PLUGIN_URL . 'assets/style.css';
+		$public_css_path = CWP_PLUGIN_URL . 'assets/public.css';
 
 		wp_enqueue_script(
 			'cwp-public-js',
